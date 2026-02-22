@@ -1,5 +1,6 @@
 package com.foodordering.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.foodordering.model.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -20,6 +21,7 @@ public class Order {
     // 關聯到 User (誰點的單)
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private User user;
 
     // 訂單總金額
@@ -35,6 +37,6 @@ public class Order {
 
     // 關聯到 OrderItem (這張單包含哪些明細)
     // cascade = CascadeType.ALL 代表如果我刪除/儲存這張單，裡面的明細也會一起被處理
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<OrderItem> orderItems = new ArrayList<>();
 }

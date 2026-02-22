@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class OrderService {
@@ -66,5 +67,16 @@ public class OrderService {
         // 4. 設定算好的總金額，並存入資料庫 (這裡會連同明細一起存進去)
         order.setTotalAmount(totalAmount);
         return orderRepository.save(order);
+    }
+
+    // --- 新增：查詢使用者的歷史訂單 ---
+    public List<Order> getUserOrders(String username) {
+        // 1. 先用帳號找出這位使用者
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("找不到使用者"));
+
+        // 2. 用他的 ID 去訂單資料表撈出所有屬於他的訂單
+        // (這個 findByUserId 方法我們之前在 OrderRepository 已經寫好了！)
+        return orderRepository.findByUserId(user.getId());
     }
 }

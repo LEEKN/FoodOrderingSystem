@@ -8,6 +8,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/orders")
 public class OrderController {
@@ -27,5 +29,18 @@ public class OrderController {
 
         // 呼叫 Service 建立訂單
         return orderService.createOrder(username, request);
+    }
+
+    // --- 2. 查詢歷史訂單 (客人看自己的單) ---
+    // 這支 API 也受到保護，必須帶 Token 才能呼叫
+    @GetMapping
+    public List<Order> getUserOrders() {
+
+        // 從 SecurityContext 取得目前登入的使用者帳號
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        // 呼叫 Service 去撈資料
+        return orderService.getUserOrders(username);
     }
 }
