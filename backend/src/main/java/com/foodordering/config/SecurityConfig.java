@@ -35,9 +35,12 @@ public class SecurityConfig {
                         // 2. 登入與註冊 (公開)
                         .requestMatchers("/api/auth/**").permitAll()
 
-                        // 3. 看菜單 (公開) -> 這是我們這次修正的重點！
+                        // 3. 看菜單 (公開)
                         // 允許所有人使用 GET 方法存取 /api/menus
                         .requestMatchers(HttpMethod.GET, "/api/menus").permitAll()
+
+                        // 允許顯示系統錯誤頁面
+                        .requestMatchers("/error").permitAll()
 
                         // 4. 其他所有請求 (例如新增菜單 POST、未來的點餐) 都要登入才能用
                         .anyRequest().authenticated()

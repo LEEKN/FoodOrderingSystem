@@ -1,5 +1,7 @@
 package com.foodordering.model.entity;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;
@@ -16,6 +18,7 @@ public class OrderItem {
     // 屬於哪一張訂單
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
+    @JsonIgnore
     private Order order;
 
     // 點了哪個餐點
