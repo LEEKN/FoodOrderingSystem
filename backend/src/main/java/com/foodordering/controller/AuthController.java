@@ -1,5 +1,6 @@
 package com.foodordering.controller;
 
+import com.foodordering.model.dto.GoogleLoginRequest;
 import com.foodordering.model.dto.LoginRequest;
 import com.foodordering.model.dto.RegisterRequest;
 import com.foodordering.service.AuthService;
@@ -23,5 +24,11 @@ public class AuthController {
     @PostMapping("/login")
     public String login(@RequestBody LoginRequest request) {
         return authService.login(request);
+    }
+
+    // Google 登入
+    @PostMapping("/google-login")
+    public String googleLogin(@RequestBody GoogleLoginRequest request) {
+        return authService.googleLogin(request.getIdToken());
     }
 }

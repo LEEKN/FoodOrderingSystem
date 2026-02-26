@@ -46,6 +46,9 @@ dependencies {
     // --- 6. 測試工具 ---
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+
+    // --- 7. Google 登入驗證 ---
+    implementation 'com.google.api-client:google-api-client:2.2.0'
 }
 test {
     useJUnitPlatform()
