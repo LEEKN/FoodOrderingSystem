@@ -2,6 +2,7 @@ package com.foodordering.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.foodordering.model.enums.OrderStatus;
+import com.foodordering.model.entity.Coupon;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;
@@ -39,4 +40,12 @@ public class Order {
     // cascade = CascadeType.ALL 代表如果我刪除/儲存這張單，裡面的明細也會一起被處理
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<OrderItem> orderItems = new ArrayList<>();
+
+    // 新增：紀錄這張訂單折了多少錢
+    private BigDecimal discountAmount = BigDecimal.ZERO;
+
+    // 新增：關聯到 Coupon (這張單用了哪張優惠券？可為空)
+    @ManyToOne
+    @JoinColumn(name = "coupon_id")
+    private Coupon coupon;
 }
